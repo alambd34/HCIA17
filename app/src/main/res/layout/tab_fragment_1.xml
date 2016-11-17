@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_width="0px"
+        android:layout_height="0px" />
+
+    <RelativeLayout
+        android:id="@+id/contact_info"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:background="@color/PrimaryColor"
+        android:layout_alignParentTop="true">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="@dimen/width_circle_view"
+            android:layout_height="@dimen/height_circle_view"
+            android:src="@drawable/icon_profile"
+            android:padding="@dimen/padding_circle_view" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_toRightOf="@id/profile_image">
+            <TextView
+                android:id="@+id/add_contact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#fff"
+                android:text="@string/add_to_contact"
+                android:textSize="@dimen/add_to_contact_size"
+                android:gravity="center"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/profile_image"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_linear_layout">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#fff"
+                android:textSize="@dimen/text_size_contact"/>
+
+            <TextView
+                android:id="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#fff"
+                android:textSize="@dimen/text_size_contact"/>
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/menu"
+            android:layout_width="@dimen/width_menu_button"
+            android:layout_height="@dimen/height_menu_button"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/menu"
+            android:layout_marginLeft="1dp"/>
+
+        <LinearLayout
+            android:id="@+id/list_contact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/menu"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_linear_layout">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#fff"
+                android:text="20"/>
+            <ImageButton
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:background="@drawable/dropdown"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/contact_info"
+        android:layout_above="@+id/table_layout">
+
+        <EditText
+            android:id="@+id/txt_phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textAlignment="center"
+            android:textSize="40sp"
+            android:singleLine="true"
+            android:lines="1"
+            android:background="@android:color/transparent"
+            />
+    </RelativeLayout>
+
+    <TableLayout
+        android:id="@+id/table_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="*"
+        android:layout_alignParentBottom="true">
+
+        <TableRow
+            android:layout_marginBottom="1dp"
+            android:layout_marginTop="1dp">
+
+            <ImageButton
+                android:id="@+id/btn_1"
+                android:scaleType="centerCrop"
+                style="?android:borderlessButtonStyle"
+                android:clickable="true"
+                android:src="@drawable/img_1"
+                android:background="@drawable/ripple_effect"
+                android:layout_width="@dimen/image_button_width"
+                android:layout_height="@dimen/image_button_height"
+                 />
+
+            <ImageButton
+                android:id="@+id/btn_2"
+                android:layout_width="@dimen/image_button_width"
+                android:layout_height="@dimen/image_button_height"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:scaleType="centerCrop"
+                style="?android:borderlessButtonStyle"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/img_2" />
+
+            <ImageButton
+                android:id="@+id/btn_3"
+                android:layout_width="@dimen/image_button_width"
+                android:layout_height="@dimen/image_button_height"
+                android:scaleType="centerCrop"
+                style="?android:borderlessButtonStyle"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/img_3" />
+        </TableRow>
+
+        <TableRow android:layout_marginBottom="1dp">
+
+            <ImageButton
+                android:id="@+id/btn_4"
+                android:layout_width="@dimen/image_button_width"
+                android:layout_height="@dimen/image_button_height"
+                android:scaleType="centerCrop"
+                style="?android:borderlessButtonStyle"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/img_4" />
+
+            <ImageButton
+                android:id="@+id/btn_5"
+                android:layout_width="@dimen/image_button_width"
+                android:layout_height="@dimen/image_button_height"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:scaleType="centerCrop"
+                style="?android:borderlessButtonStyle"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/img_5" />
+
+            <ImageButton
+                android:id="@+id/btn_6"
+                android:layout_width="@dimen/image_button_width"
+                android:layout_height="@dimen/image_button_height"
+                android:scaleType="centerCrop"
+                style="?android:borderlessButtonStyle"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/img_6" />
+        </TableRow>
+
+        <TableRow android:layout_marginBottom="1dp">
+
+            <ImageButton
+                android:id="@+id/btn_7"
+                android:layout_width="@dimen/image_button_width"
+                android:layout_height="@dimen/image_button_height"
+                android:scaleType="centerCrop"
+                style="?android:borderlessButtonStyle"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/img_7" />
+
+            <ImageButton
+                android:id="@+id/btn_8"
+                android:layout_width="@dimen/image_button_width"
+                android:layout_height="@dimen/image_button_height"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:scaleType="centerCrop"
+                style="?android:borderlessButtonStyle"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/img_8" />
+
+            <ImageButton
+                android:id="@+id/btn_9"
+                android:layout_width="@dimen/image_button_width"
+                android:layout_height="@dimen/image_button_height"
+                android:scaleType="centerCrop"
+                style="?android:borderlessButtonStyle"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/img_9" />
+        </TableRow>
+
+        <TableRow android:layout_marginBottom="1dp">
+
+            <ImageButton
+                android:id="@+id/btn_star"
+                android:layout_width="@dimen/image_button_width"
+                android:layout_height="@dimen/image_button_height"
+                android:layout_marginLeft="1dp"
+                android:scaleType="centerCrop"
+                style="?android:borderlessButtonStyle"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/img_star" />
+
+            <ImageButton
+                android:id="@+id/btn_0"
+                android:layout_width="@dimen/image_button_width"
+                android:layout_height="@dimen/image_button_height"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:scaleType="centerCrop"
+                style="?android:borderlessButtonStyle"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/img_0" />
+
+            <ImageButton
+                android:id="@+id/btn_hash"
+                android:layout_width="@dimen/image_button_width"
+                android:layout_height="@dimen/image_button_height"
+                android:scaleType="centerCrop"
+                style="?android:borderlessButtonStyle"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/img_hash" />
+        </TableRow>
+
+        <TableRow>
+
+            <ImageButton
+                android:id="@+id/btn_voice"
+                android:layout_width="@dimen/image_button_width"
+                android:layout_height="@dimen/image_button_height"
+                android:scaleType="centerCrop"
+                style="?android:borderlessButtonStyle"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/img_left_call" />
+
+            <ImageButton
+                android:id="@+id/btn_call"
+                android:layout_width="@dimen/image_button_width"
+                android:layout_height="@dimen/image_button_height"
+                android:scaleType="centerCrop"
+                style="?android:borderlessButtonStyle"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/img_call" />
+
+            <ImageButton
+                android:id="@+id/btn_del"
+                android:layout_width="@dimen/image_button_width"
+                android:layout_height="@dimen/image_button_height"
+                android:scaleType="centerCrop"
+                style="?android:borderlessButtonStyle"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/img_del" />
+        </TableRow>
+    </TableLayout>
+</RelativeLayout>

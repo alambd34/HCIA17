@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">HICA17</string>
+    <string name="listening">Đang nghe...</string>
+    <string name="tab_icon_selected">#ecd95a</string>
+    <string name="tab_icon_unselected">#ffffff</string>
+    <string name="add_to_contact">+ Thêm vào danh bạ</string>
+    <string name="title_dialog">Kết quả tìm kiếm</string>
+    <string name="btn_exit_dialog">Thoát</string>
 </resources>
