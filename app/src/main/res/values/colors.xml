@@ -285,6 +285,7 @@
     <color name="PrimaryColor">#2196F3</color>
     <color name="PrimaryDarkColor">#1976D2</color>
     <color name="indicator">#ecd95a</color>
+    <color name="background_surface">#ff354852</color>
 
 
 

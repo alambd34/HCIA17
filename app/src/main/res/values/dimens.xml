@@ -12,4 +12,11 @@
     <dimen name="padding_linear_layout">5dp</dimen>
     <dimen name="text_size_contact">16sp</dimen>
     <dimen name="add_to_contact_size">22sp</dimen>
+    <dimen name="margin_top_title_help">90dp</dimen>
+    <dimen name="text_size_what_help">28sp</dimen>
+    <dimen name="text_size_question">18sp</dimen>
+    <dimen name="margin_top_text_answer">32dp</dimen>
+    <dimen name="margin_right_text_question">8dp</dimen>
+    <dimen name="margin_top_text_question">12dp</dimen>
+    <dimen name="margin_top_list_result">12dp</dimen>
 </resources>

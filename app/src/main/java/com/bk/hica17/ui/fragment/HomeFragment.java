@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ import com.bk.hica17.R;
 import com.bk.hica17.dialog.CustomDiaglog;
 import com.bk.hica17.model.Contact;
 import com.bk.hica17.model.ContactMatching;
+import com.bk.hica17.ui.activity.VoiceActivity;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -35,7 +37,7 @@ public class HomeFragment extends Fragment {
     ImageButton[] btn;
     ImageButton btnStar;
     ImageButton btnHash;
-    ImageButton btnVoice;
+    ImageView imgVoice;
     ImageButton btnCall;
     ImageButton btnDel;
     StringBuilder stringBuilder;
@@ -49,6 +51,12 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         mRootView = inflater.inflate(R.layout.tab_fragment_1, container, false);
+        initDialer();
+        initVoice();
+        return mRootView;
+    }
+
+    public void initDialer() {
         editPhoneNumber = (EditText) mRootView.findViewById(R.id.txt_phone_number);
 
         btn = new ImageButton[10];
@@ -100,7 +108,6 @@ public class HomeFragment extends Fragment {
                 findContact();
             }
         });
-
 
         if (Build.VERSION.SDK_INT >= 11) {
             editPhoneNumber.setRawInputType(InputType.TYPE_CLASS_TEXT);
@@ -157,8 +164,25 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        return mRootView;
+
     }
+
+    public void initVoice() {
+        imgVoice = (ImageView)mRootView.findViewById(R.id.btn_voice);
+        imgVoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startVoiceActivity();
+            }
+        });
+    }
+
+    public void startVoiceActivity() {
+
+        Intent voiceIntent = new Intent(getActivity(), VoiceActivity.class);
+        getActivity().startActivity(voiceIntent);
+    }
+
 
     private class ImageButtonListener implements View.OnClickListener {
 

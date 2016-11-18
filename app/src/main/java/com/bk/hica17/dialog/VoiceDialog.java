@@ -48,9 +48,9 @@ public class VoiceDialog extends DialogFragment {
         dialog.setContentView(R.layout.voice_dialog);
         dialog.getWindow().getAttributes().windowAnimations = R.style.PauseDialogAnimation;
 
-        mImgBtnVoice = (ImageButton)dialog.findViewById(R.id.img_btn_voice_dialog);
-        mTxtTitle = (TextView)dialog.findViewById(R.id.title_voice);
-        mAudioVisualization = (AudioVisualization)dialog.findViewById(R.id.visualizer_view);
+//        mImgBtnVoice = (ImageButton)dialog.findViewById(R.id.img_btn_voice_dialog);
+//        mTxtTitle = (TextView)dialog.findViewById(R.id.title_voice);
+//        mAudioVisualization = (AudioVisualization)dialog.findViewById(R.id.visualizer_view);
 
         initIntent();
 

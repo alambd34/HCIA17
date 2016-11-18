@@ -260,14 +260,13 @@
 
         <TableRow>
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/btn_voice"
                 android:layout_width="@dimen/image_button_width"
                 android:layout_height="@dimen/image_button_height"
-                android:scaleType="centerCrop"
-                style="?android:borderlessButtonStyle"
+                android:clickable="true"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/img_left_call" />
+                android:src="@drawable/ic_voice_dialer" />
 
             <ImageButton
                 android:id="@+id/btn_call"

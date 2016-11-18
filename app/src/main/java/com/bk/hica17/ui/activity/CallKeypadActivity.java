@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.bk.hica17.R;
 import com.bk.hica17.adapter.ViewPagerAdapter;
+import com.bk.hica17.model.DataVoice;
 import com.bk.hica17.utils.Util;
 
 public class CallKeypadActivity extends AppCompatActivity {
@@ -17,14 +18,11 @@ public class CallKeypadActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private ViewPagerAdapter viewPagerAdapter;
-    static CallKeypadActivity ma;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_call_keypad);
-        ma = this;
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -96,8 +94,7 @@ public class CallKeypadActivity extends AppCompatActivity {
             }
         });
         Util.checkRecognizerPermission(this);
-
-
+        DataVoice.initDataVoice();
     }
 
     public void setColorFilter(TabLayout.Tab tab, String hex) {
