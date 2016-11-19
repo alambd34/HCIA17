@@ -3,11 +3,16 @@ package com.bk.hica17.utils;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.speech.SpeechRecognizer;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import com.bk.hica17.BaseApplication;
 
@@ -21,6 +26,9 @@ import java.util.Scanner;
  */
 public class Util {
 
+    public static Typeface faceRegular = Typeface.createFromAsset(BaseApplication.getContext().getAssets(), "fonts/Roboto-Regular.ttf");
+    public static Typeface faceMini = Typeface.createFromAsset(BaseApplication.getContext().getAssets(), "fonts/Roboto-Thin.ttf");
+
     public static void checkRecognizerPermission(Activity activity) {
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(activity, Manifest.permission.MODIFY_AUDIO_SETTINGS) == PackageManager.PERMISSION_GRANTED) {
@@ -32,9 +40,11 @@ public class Util {
             } else {
                 ActivityCompat.requestPermissions(
                         activity,
-                        new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.MODIFY_AUDIO_SETTINGS,
+                        new String[]{
+                                Manifest.permission.RECORD_AUDIO, Manifest.permission.MODIFY_AUDIO_SETTINGS,
                                 Manifest.permission.READ_CONTACTS, Manifest.permission.CALL_PHONE,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE,
+                                Manifest.permission.PROCESS_OUTGOING_CALLS},
                         10
                 );
             }
@@ -53,6 +63,19 @@ public class Util {
                 .translationY(-hideView.getHeight())
                 .setInterpolator(new LinearInterpolator())
                 .setDuration(180);
+    }
+
+    public static void applyAnimation(View view, int idAnim) {
+
+        Animation animation = AnimationUtils.loadAnimation(BaseApplication.getContext(), idAnim);
+        view.startAnimation(animation);
+    }
+
+    public static void animateTranslateY(View view, int toY) {
+        view.animate()
+                .translationY(-toY)
+                .setInterpolator(new LinearInterpolator())
+                .setDuration(200);
     }
 
     public static ArrayList<byte[]> readVoice() {
@@ -75,6 +98,10 @@ public class Util {
             Log.e("tuton", "loi doc file");
         }
         return data;
+    }
+
+    public static void applyCustomFont(TextView textView, Typeface face) {
+        textView.setTypeface(face);
     }
 
     public static String getErrorRecognizer(int errorCode) {
@@ -114,4 +141,11 @@ public class Util {
         return message;
     }
 
+    public static void hideSoftKeyboard(Activity activity) {
+
+        if (activity != null && activity.getCurrentFocus() != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+        }
+    }
 }

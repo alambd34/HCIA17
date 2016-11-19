@@ -12,11 +12,31 @@
     <dimen name="padding_linear_layout">5dp</dimen>
     <dimen name="text_size_contact">16sp</dimen>
     <dimen name="add_to_contact_size">22sp</dimen>
-    <dimen name="margin_top_title_help">90dp</dimen>
+    <dimen name="margin_top_title_help">110dp</dimen>
     <dimen name="text_size_what_help">28sp</dimen>
     <dimen name="text_size_question">18sp</dimen>
     <dimen name="margin_top_text_answer">32dp</dimen>
     <dimen name="margin_right_text_question">8dp</dimen>
     <dimen name="margin_top_text_question">12dp</dimen>
     <dimen name="margin_top_list_result">12dp</dimen>
+    <dimen name="height_surface_view">140dp</dimen>
+    <dimen name="margin_left_img_contact">8dp</dimen>
+    <dimen name="margin_top_img_contact">8dp</dimen>
+    <dimen name="margin_right_img_contact">8dp</dimen>
+    <dimen name="margin_left_info_contact">12dp</dimen>
+    <dimen name="margin_top_info_contact">12dp</dimen>
+    <dimen name="margin_top_contact_number">8dp</dimen>
+    <dimen name="size_text_contact_name">18sp</dimen>
+    <dimen name="size_text_contact_phone">13sp</dimen>
+    <dimen name="text_size_answer">24dp</dimen>
+    <dimen name="margin_height_call_action">70dp</dimen>
+
+    <dimen name="height_voice_call">40dp</dimen>
+    <dimen name="width_voice_call">40dp</dimen>
+    <dimen name="height_make_call">60dp</dimen>
+    <dimen name="width_make_call">60dp</dimen>
+    <dimen name="height_delete_number">40dp</dimen>
+    <dimen name="width_delete_number">40dp</dimen>
+    <dimen name="height_gl_surface_view_hear">200dp</dimen>
+    <dimen name="width_gl_surface_view_hear">100dp</dimen>
 </resources>

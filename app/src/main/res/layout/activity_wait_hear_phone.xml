@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.WaitHearPhoneActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/bg1"
+        android:scaleType="fitXY" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/cirImgAvatar"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:src="@drawable/defultuserphoto"/>
+
+        <TextView
+            android:id="@+id/txtCaller"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:textSize="25dp"
+            android:text="trung"
+            android:textColor="#ffffffff"/>
+
+        <TextView
+            android:id="@+id/txtNumberPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="25dp"
+            android:text="0123456789"
+            android:textColor="#ffffffff"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imgUp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="200dp"
+        android:src="@drawable/up"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="210dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dp">
+
+        <ImageView
+            android:id="@+id/cirImgCancel"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_gravity="bottom"
+            android:src="@drawable/ic_cancel_call"/>
+
+        <ImageView
+            android:id="@+id/cirImgYes"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:src="@drawable/ic_call"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="50dp"/>
+
+        <ImageView
+            android:id="@+id/cirImgCancelMessage"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:src="@drawable/ic_message_cancel_call"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="50dp"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:color="@color/blue_grey_500"
+    tools:targetApi="lollipop"> <!-- ripple effect color -->
+    <item android:id="@android:id/background">
+        <shape android:shape="rectangle">
+            <gradient
+                android:startColor="@color/background_voice1"
+                android:endColor="@color/background_voice2"
+                android:centerColor="@color/background_voice3"
+                android:gradientRadius="5dp"
+                android:centerX="30"
+                android:centerY="30"/>
+        </shape>
+    </item>
+</ripple>

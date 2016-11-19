@@ -1,41 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rl_root_view_voice"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue_grey_800">
+    android:fitsSystemWindows="true"
+    android:background="@drawable/background_voice">
+
+    <TextView
+        android:id="@+id/txt_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/margin_right_text_question"
+        android:layout_marginTop="@dimen/margin_top_text_question"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_question" />
 
     <LinearLayout
-        android:id="@+id/layout_question_answer"
+        android:id="@+id/ll_result"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/txt_question"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginRight="@dimen/margin_right_text_question"
-            android:layout_marginTop="@dimen/margin_top_text_question"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_question" />
+        android:layout_height="300dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        android:visibility="invisible">
 
         <TextView
             android:id="@+id/txt_answer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_right_text_question"
-            android:layout_marginTop="@dimen/margin_top_text_answer"
+            android:text="Ket qua tim kiem"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_question"
+            android:textSize="@dimen/text_size_answer"
             android:textStyle="bold" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rl_list_result"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="@dimen/margin_top_list_result">
 
         </android.support.v7.widget.RecyclerView>
@@ -46,36 +51,42 @@
         android:id="@+id/txt_title_what_help"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/margin_top_title_help"
+        android:layout_centerInParent="true"
         android:gravity="center"
         android:text="@string/what_help"
         android:textColor="@color/grey_300"
         android:textSize="@dimen/text_size_what_help" />
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="@dimen/height_surface_view"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true">
 
         <android.opengl.GLSurfaceView
             android:id="@+id/gl_surface_view"
-            android:layout_centerInParent="true"
-            android:layout_width="200dp"
-            android:layout_height="80dp" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+          />
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_surface_view"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/transparent">
 
         <ImageView
             android:id="@+id/img_voice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/ic_voice_white"
-            android:visibility="invisible" />
+            android:src="@drawable/icon_voice_white"
+            android:clickable="true"/>
 
     </RelativeLayout>
-
-
 
 
 </RelativeLayout>

@@ -287,6 +287,10 @@
     <color name="indicator">#ecd95a</color>
     <color name="background_surface">#ff354852</color>
 
+    <color name="background_voice1">#CC455A64</color>
+    <color name="background_voice2">#CC37474F</color>
+    <color name="background_voice3">#CC263238</color>
+
 
 
 </resources>

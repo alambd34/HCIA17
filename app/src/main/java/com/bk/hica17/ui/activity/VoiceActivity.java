@@ -1,6 +1,8 @@
 package com.bk.hica17.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PixelFormat;
 import android.opengl.GLSurfaceView;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -18,13 +21,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bk.hica17.R;
+import com.bk.hica17.adapter.RvContactVoiceAdapter;
 import com.bk.hica17.appconstant.AppConstant;
+import com.bk.hica17.callback.OnItemContactVoiceClickCallback;
+import com.bk.hica17.model.Contact;
+import com.bk.hica17.model.ContactLoader;
 import com.bk.hica17.model.DataVoice;
 import com.bk.hica17.utils.Util;
 import com.yalantis.waves.util.Horizon;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.StringTokenizer;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,11 +43,20 @@ public class VoiceActivity extends AppCompatActivity {
     private static final int RECORDER_CHANNELS = 1;
     private static final int RECORDER_ENCODING_BIT = 16;
     private static final int RECORDER_SAMPLE_RATE = 44100;
+
+    public static final int START_RECOGNIZING = 0;
+    public static final int END_RECOGNIZING = 1;
+    public static final int RESULT_RECOGNIZING = 2;
+    public static final int ERROR_RECOGNIZING = 3;
+    public static final int CONTACT_QUERY_LOADER = 0;
+    public static final String QUERY_KEY = "query";
+
+    public static final int WRONG_SYNTAX = 1;
+    public static final int NO_SPEECH = 2;
+    public static final int RIGHT_SYNTAX = 3;
+
     @Bind(R.id.rl_root_view_voice)
     RelativeLayout mRootView;
-
-    @Bind(R.id.layout_question_answer)
-    LinearLayout mViewQuestionAnswer;
 
     @Bind(R.id.txt_question)
     TextView mTxtQuestion;
@@ -59,20 +76,28 @@ public class VoiceActivity extends AppCompatActivity {
     @Bind(R.id.img_voice)
     ImageView mImgVoice;
 
+    @Bind(R.id.ll_result)
+    LinearLayout llResult;
+
+
     SpeechRecognizer mSpeechRecognizer;
     TextToSpeech mTextToSpeech;
     Intent recognizerIntent;
     Horizon mHorizon;
     ArrayList<byte[]> dataVoice = null;
+    RvContactVoiceAdapter mContactAdapter;
+    String query = "";
 
     boolean mEnableTextToSpeech = true;
-    boolean mRecognizing = false;
+    int mRecognizing = END_RECOGNIZING;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_voice);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
         ButterKnife.bind(this);
         Util.checkRecognizerPermission(this);
 
@@ -84,14 +109,25 @@ public class VoiceActivity extends AppCompatActivity {
 
     public void initView() {
 
+        mGlSurfaceEffect.setZOrderOnTop(true);
+        mGlSurfaceEffect.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
+        mGlSurfaceEffect.getHolder().setFormat(PixelFormat.RGBA_8888);
+        mGlSurfaceEffect.getHolder().setFormat(PixelFormat.TRANSLUCENT);
         this.mHorizon = new Horizon(
-                mGlSurfaceEffect, getResources().getColor(R.color.background_surface),
+                mGlSurfaceEffect, getResources().getColor(android.R.color.transparent),
                 RECORDER_SAMPLE_RATE,
                 RECORDER_CHANNELS,
                 RECORDER_ENCODING_BIT);
         this.mHorizon.setMaxVolumeDb(120);
 
+        Util.applyAnimation(mTxtWhatHelp, R.anim.translate_alpha);
+        Util.applyCustomFont(mTxtWhatHelp, Util.faceRegular);
+        Util.applyCustomFont(mTxtAnswer, Util.faceRegular);
+        Util.applyCustomFont(mTxtQuestion, Util.faceMini);
+        initRv();
+//        initBackground();
     }
+
 
     public void initTextToSpeech() {
 
@@ -103,17 +139,17 @@ public class VoiceActivity extends AppCompatActivity {
                 if (status == TextToSpeech.SUCCESS) {
 
                     int result = mTextToSpeech.setLanguage(mTextToSpeech.getDefaultVoice().getLocale());
+//                    int result = mTextToSpeech.setLanguage(Locale.ENGLISH);
 
                     if (result == TextToSpeech.LANG_MISSING_DATA
                             || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                         mEnableTextToSpeech = false;
-                        Log.e("TTS", "This Language is not supported");
+                        Log.e(AppConstant.LOG_TAG, "TextToSpeech : This Language is not supported");
                     } else {
 //                        speakOut(AppConstant.WHAT_HELP);
                     }
-
                 } else {
-                    Log.e("TTS", "Initilization Failed!");
+                    Log.e(AppConstant.LOG_TAG, "TextToSpeech : Initilization Failed!");
                 }
             }
         });
@@ -121,7 +157,7 @@ public class VoiceActivity extends AppCompatActivity {
 
     public void speakOut(String text) {
         if (!text.isEmpty() && mEnableTextToSpeech) {
-            mTextToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null);
+            mTextToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
         }
     }
 
@@ -136,8 +172,8 @@ public class VoiceActivity extends AppCompatActivity {
                 RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
-
     }
+
 
     public void initSpeechRecognizer() {
 
@@ -166,22 +202,24 @@ public class VoiceActivity extends AppCompatActivity {
             @Override
             public void onEndOfSpeech() {
                 Log.e(AppConstant.LOG_TAG, "End of Speech");
-                stopRecognizer();
+                handleEndRecognizer();
             }
 
             @Override
             public void onError(int i) {
                 Log.e(AppConstant.LOG_TAG, "error: " + Util.getErrorRecognizer(i));
-                stopRecognizer();
+                handleErrorRecognizing();
             }
 
             @Override
             public void onResults(Bundle bundle) {
+                Log.e(AppConstant.LOG_TAG, "result");
                 handleResultRecognizing(bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION));
             }
 
             @Override
             public void onPartialResults(Bundle bundle) {
+                Log.e(AppConstant.LOG_TAG, "partial result");
                 handlePartialResultRecognizing(bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION));
             }
 
@@ -193,10 +231,27 @@ public class VoiceActivity extends AppCompatActivity {
         dataVoice = DataVoice.getDataVoice();
     }
 
+    public void initRv() {
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        mContactAdapter = new RvContactVoiceAdapter(this, null);
+        mContactAdapter.setItemClickListener(new OnItemContactVoiceClickCallback() {
+            @Override
+            public void onItemClick(int position) {
+                startCallActivity(mContactAdapter.getContacts().get(position));
+            }
+        });
+        mRvResults.setLayoutManager(layoutManager);
+        mRvResults.setAdapter(mContactAdapter);
+    }
+
+
     @OnClick(R.id.img_voice)
     public void onClickVoice(View view) {
 
-        if (!mRecognizing) {
+        if (mRecognizing != START_RECOGNIZING) {
             new TaskRecognizing().execute();
         }
     }
@@ -205,25 +260,25 @@ public class VoiceActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            mRecognizing = true;
+            mRecognizing = START_RECOGNIZING;
             mSpeechRecognizer.startListening(recognizerIntent);
-            mImgVoice.setVisibility(View.INVISIBLE);
+            updateVoiceView();
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
 
             Random rand = new Random();
-            while (mRecognizing && dataVoice != null) {
+            while (mRecognizing == START_RECOGNIZING && dataVoice != null) {
                 Log.e(AppConstant.LOG_TAG, "vao");
                 int temp = rand.nextInt(dataVoice.size());
                 publishProgress(temp);
-                sleepEffect(50);
+                sleepEffect(70);
             }
 
-            for (int i = 0; i < 20; i++) {
+            for (int i = 0; i < 220; i++) {
                 publishProgress(0);
-                sleepEffect(30);
+                sleepEffect(4);
             }
             return null;
         }
@@ -235,45 +290,213 @@ public class VoiceActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            stopRecognizer();
+            updateVoiceView();
+            if (mRecognizing == ERROR_RECOGNIZING) {
+                showResult(null, NO_SPEECH);
+            }
         }
     }
 
-    public void stopRecognizer() {
+    public void updateVoiceView() {
 
-        if (mRecognizing) {
-            mRecognizing = false;
+        if (mRecognizing == START_RECOGNIZING) {
+
+            if (mImgVoice.getVisibility() == View.VISIBLE) {
+                mImgVoice.setVisibility(View.INVISIBLE);
+            }
+        } else {
+
+            if (mImgVoice.getVisibility() != View.VISIBLE) {
+                mImgVoice.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+
+    public void handleEndRecognizer() {
+
+        if (mRecognizing == START_RECOGNIZING) {
+            mRecognizing = END_RECOGNIZING;
             mSpeechRecognizer.stopListening();
-            mSpeechRecognizer.cancel();
-            mImgVoice.setVisibility(View.VISIBLE);
-
+        } else {
+            mRecognizing = END_RECOGNIZING;
         }
     }
+
+    public void handleErrorRecognizing() {
+
+        if (mRecognizing == START_RECOGNIZING) {
+            mRecognizing = ERROR_RECOGNIZING;
+            mSpeechRecognizer.stopListening();
+        } else {
+            mRecognizing = ERROR_RECOGNIZING;
+        }
+        mSpeechRecognizer.cancel();
+    }
+
 
     public void handleResultRecognizing(ArrayList<String> results) {
 
-        stopRecognizer();
+        mRecognizing = RESULT_RECOGNIZING;
+        String phoneNumber;
         if (results != null && results.size() > 0) {
-            mTxtQuestion.setText(results.get(0));
+
+            String mCurrQuestion = results.get(0);
+            String showQuestion = "\"" + mCurrQuestion + "\"";
+            mTxtQuestion.setText(showQuestion);
+            ArrayList<String> subInputs = processInput(mCurrQuestion);
+            if (subInputs.size() > 1 && (subInputs.get(0).equalsIgnoreCase("gọi") || subInputs.get(0).equalsIgnoreCase("goi"))) {
+                phoneNumber = getPhoneNumber(subInputs);
+                if (phoneNumber != null) {
+                    Contact contact = new Contact(AppConstant.UNKNOWN, phoneNumber);
+                    ArrayList<Contact> contacts = new ArrayList<>();
+                    contacts.add(contact);
+                    showResult(contacts, RIGHT_SYNTAX);
+                } else {
+                    searchPhoneInContract(subInputs);
+                }
+            } else {
+                showResult(null, WRONG_SYNTAX);
+            }
+        }
+        mSpeechRecognizer.cancel();
+    }
+
+    public ArrayList<String> processInput(String lineInput) {
+
+        StringTokenizer tokenizer = new StringTokenizer(lineInput, " ");
+        ArrayList<String> result = new ArrayList<>();
+        while (tokenizer.hasMoreTokens()) {
+            result.add(tokenizer.nextToken());
+        }
+        Log.e("tuton", result.get(0));
+        return result;
+    }
+
+    public String getPhoneNumber(ArrayList<String> subInputs) {
+
+        StringBuilder builder = new StringBuilder();
+        for (int i = 1; i < subInputs.size(); i++) {
+
+            String s = subInputs.get(i);
+            for (int j = 0; j < s.length(); j++) {
+                char c = s.charAt(j);
+                if (c == '0' || c == '1' || c == '2' || c == '3' || c == '4' || c == '5' || c == '6' || c == '7' || c == '8' || c == '9') {
+                    builder.append(c);
+                } else {
+                    return null;
+                }
+            }
+        }
+        return builder.toString();
+    }
+
+
+    public void handlePartialResultRecognizing(ArrayList<String> partialResults) {
+
+        if (partialResults != null && partialResults.size() > 0) {
+            mTxtQuestion.setText(partialResults.get(0));
+            if (mTxtWhatHelp.getVisibility() == View.VISIBLE) {
+                Util.applyAnimation(mTxtWhatHelp, R.anim.fade_out);
+                mTxtWhatHelp.setVisibility(View.INVISIBLE);
+            }
+
+            if (llResult.getVisibility() == View.VISIBLE) {
+                llResult.setVisibility(View.INVISIBLE);
+            }
         }
     }
 
-    public void handlePartialResultRecognizing(ArrayList<String> patialResults) {
-        if (patialResults != null && patialResults.size() > 0) {
-            mTxtQuestion.setText(patialResults.get(0));
+    public void searchPhoneInContract(ArrayList<String> subInputs) {
+
+        if (subInputs == null || subInputs.size() <= 1) {
+            return;
+        }
+
+        query = "";
+        for (int i = 1; i < subInputs.size() - 1; i++) {
+            query += subInputs.get(i);
+            query += " ";
+        }
+        query += subInputs.get(subInputs.size() - 1);
+
+        Bundle data = new Bundle();
+        data.putString(QUERY_KEY, query);
+
+        ContactLoader loader = new ContactLoader(this);
+        loader.setLoadCallback(new ContactLoader.OnLoadFinishCallback() {
+            @Override
+            public void onLoadFinish(ArrayList<Contact> contacts) {
+                showResult(contacts, RIGHT_SYNTAX);
+            }
+        });
+
+        // start the loader with the new query, and an object that will handle all callbacks.
+        getLoaderManager().restartLoader(CONTACT_QUERY_LOADER, data, loader);
+    }
+
+    public void showResult(ArrayList<Contact> contacts, int typeShow) {
+
+        if (mTxtWhatHelp.getVisibility() == View.VISIBLE) {
+            Util.applyAnimation(mTxtWhatHelp, R.anim.fade_out);
+            mTxtWhatHelp.setVisibility(View.INVISIBLE);
+        }
+        String showAnswer;
+        boolean speak = true;
+        mContactAdapter.removeAll();
+        if (typeShow == WRONG_SYNTAX) {
+            showAnswer = AppConstant.WRONG_SYNTAX;
+        } else if (typeShow == RIGHT_SYNTAX) {
+            if (contacts != null && contacts.size() > 0) {
+                showAnswer = AppConstant.TITLE_RESULT;
+                mContactAdapter.addAll(contacts);
+                Log.e("tuton", mContactAdapter.getContacts().size() + "");
+                if (contacts.size() == 1) {
+                    speak = false;
+                    startCallActivity(contacts.get(0));
+                } else {
+
+                    for (int i = 0; i < contacts.size(); i++) {
+                        if (contacts.get(i).getName().equalsIgnoreCase(query)) {
+                            startCallActivity(contacts.get(i));
+                            speak = false;
+                            break;
+                        }
+                    }
+                }
+            } else {
+                showAnswer = AppConstant.PRE_NO_RESULT + "\"" + query + "\"" + AppConstant.END_NO_RESULT;
+            }
+
+        } else {
+            showAnswer = AppConstant.NO_SPEECH;
+        }
+        if (llResult.getVisibility() != View.VISIBLE) {
+            llResult.setVisibility(View.VISIBLE);
+
+            mTxtAnswer.setText(showAnswer);
+            Util.applyAnimation(llResult, R.anim.translate_alpha2);
+        }
+        if (speak) {
+            speakOut(showAnswer);
         }
     }
+
 
     @Override
     protected void onPause() {
         super.onPause();
-        mRecognizing = false;
+        if (mRecognizing == START_RECOGNIZING) {
+            mRecognizing = ERROR_RECOGNIZING;
+            mSpeechRecognizer.stopListening();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (!mRecognizing) {
+
+        if (mRecognizing != START_RECOGNIZING) {
             new TaskRecognizing().execute();
         }
     }
@@ -284,7 +507,6 @@ public class VoiceActivity extends AppCompatActivity {
 
         mTextToSpeech.stop();
         mTextToSpeech.shutdown();
-
         mSpeechRecognizer.destroy();
         mGlSurfaceEffect.destroyDrawingCache();
     }
@@ -295,6 +517,12 @@ public class VoiceActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void startCallActivity(Contact contact) {
+
+
+
     }
 }
 

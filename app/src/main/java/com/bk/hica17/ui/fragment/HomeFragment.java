@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -37,9 +36,9 @@ public class HomeFragment extends Fragment {
     ImageButton[] btn;
     ImageButton btnStar;
     ImageButton btnHash;
-    ImageView imgVoice;
-    ImageButton btnCall;
-    ImageButton btnDel;
+    View viewVoice;
+    View viewCall;
+    View viewDelete;
     StringBuilder stringBuilder;
     TextView txtName, txtPhone;
 
@@ -50,7 +49,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        mRootView = inflater.inflate(R.layout.tab_fragment_1, container, false);
+        mRootView = inflater.inflate(R.layout.home_fragment, container, false);
         initDialer();
         initVoice();
         return mRootView;
@@ -81,8 +80,8 @@ public class HomeFragment extends Fragment {
         btnStar.setOnClickListener(new ImageButtonListener(stringBuilder, "*", editPhoneNumber));
         btnHash.setOnClickListener(new ImageButtonListener(stringBuilder, "#", editPhoneNumber));
 
-        btnDel = (ImageButton) mRootView.findViewById(R.id.btn_del);
-        btnDel.setOnClickListener(new View.OnClickListener() {
+        viewDelete =  mRootView.findViewById(R.id.img_delete_number);
+        viewDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (editPhoneNumber.hasFocus()) {
@@ -116,6 +115,7 @@ public class HomeFragment extends Fragment {
             editPhoneNumber.setRawInputType(InputType.TYPE_NULL);
             editPhoneNumber.setFocusable(true);
         }
+//        Util.hideSoftKeyboard(getActivity());
 
         editPhoneNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -131,8 +131,8 @@ public class HomeFragment extends Fragment {
         txtName = (TextView) mRootView.findViewById(R.id.name);
         txtPhone = (TextView) mRootView.findViewById(R.id.phone);
 
-        btnCall = (ImageButton) mRootView.findViewById(R.id.btn_call);
-        btnCall.setOnClickListener(new View.OnClickListener() {
+        viewCall =  mRootView.findViewById(R.id.fab_call);
+        viewCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -168,8 +168,8 @@ public class HomeFragment extends Fragment {
     }
 
     public void initVoice() {
-        imgVoice = (ImageView)mRootView.findViewById(R.id.btn_voice);
-        imgVoice.setOnClickListener(new View.OnClickListener() {
+        viewVoice = mRootView.findViewById(R.id.img_voice_call);
+        viewVoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startVoiceActivity();

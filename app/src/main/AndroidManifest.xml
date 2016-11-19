@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -26,7 +28,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.VoiceActivity"></activity>
+
+        <activity
+            android:name=".ui.activity.VoiceActivity"
+            android:theme="@style/VoiceTheme" />
+
+        <activity android:name=".ui.activity.PersonalActivity" />
+
+        <activity
+            android:name=".ui.activity.HearPhoneActivity"
+            android:theme="@style/WaitCallTheme" />
+
+        <activity
+            android:name=".ui.activity.WaitHearPhoneActivity"
+            android:theme="@style/WaitCallTheme" />
     </application>
 
 </manifest>

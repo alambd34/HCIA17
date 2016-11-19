@@ -9,6 +9,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.bk.hica17.ui.fragment.CallLogFragment;
+import com.bk.hica17.ui.fragment.ContactFragment;
 import com.bk.hica17.ui.fragment.HomeFragment;
 import com.bk.hica17.ui.fragment.TabFragment;
 
@@ -33,14 +35,11 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
                 HomeFragment tab1 = new HomeFragment();
                 return tab1;
             case 1:
-                TabFragment tab2 = new TabFragment();
-                return tab2;
+                return new CallLogFragment();
             case 2:
-                TabFragment tab3 = new TabFragment();
-                return tab3;
+                return new ContactFragment();
             case 3:
-                TabFragment tab4 = new TabFragment();
-                return tab4;
+                return new TabFragment();
             default:
                 return null;
         }
