@@ -54,6 +54,7 @@ public class HomeFragment extends Fragment {
     LinearLayout linearContact;
     List<Contact> listContact;
     TextView txtNumberResult;
+    View viewLineSeperate;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,6 +66,7 @@ public class HomeFragment extends Fragment {
     }
 
     public void initDialer() {
+        viewLineSeperate = mRootView.findViewById(R.id.view_line_seperate);
         editPhoneNumber = (EditText) mRootView.findViewById(R.id.edit_phone_number);
         txtNumberResult = (TextView) mRootView.findViewById(R.id.number_result);
         txtName = (TextView) mRootView.findViewById(R.id.name);
@@ -247,6 +249,7 @@ public class HomeFragment extends Fragment {
         });
         nameAndContact.setVisibility(View.INVISIBLE);
         linearContact.setVisibility(View.INVISIBLE);
+        viewLineSeperate.setVisibility(View.INVISIBLE);
 
     }
 
@@ -310,6 +313,7 @@ public class HomeFragment extends Fragment {
                 nameAndContact.setVisibility(View.VISIBLE);
                 txtName.setText(contact.getName());
                 linearContact.setVisibility(View.VISIBLE);
+                viewLineSeperate.setVisibility(View.VISIBLE);
                 String str = contact.getPhoneNumber();
 
                 txtPhone.setText(contact.getPhoneNumber());
@@ -338,12 +342,14 @@ public class HomeFragment extends Fragment {
                 addContact.setVisibility(View.VISIBLE);
                 nameAndContact.setVisibility(View.INVISIBLE);
                 linearContact.setVisibility(View.INVISIBLE);
+                viewLineSeperate.setVisibility(View.INVISIBLE);
             }
         } else {
             profileImage.setVisibility(View.INVISIBLE);
             addContact.setVisibility(View.INVISIBLE);
             nameAndContact.setVisibility(View.INVISIBLE);
             linearContact.setVisibility(View.INVISIBLE);
+            viewLineSeperate.setVisibility(View.INVISIBLE);
         }
 
     }

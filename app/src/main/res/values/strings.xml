@@ -8,7 +8,7 @@
     <string name="tab_keyboard">Bàn phím</string>
     <string name="tab_diary">Nhật ký</string>
     <string name="tab_contact">Danh bạ</string>
-    <string name="tab_add">Thêm</string>
+    <string name="tab_menu">Menu</string>
     <string name="type_contact_mobile">Di động</string>
     <string name="bg_tab_unselected">#B2E2D4</string>
     <string name="bg_tab_selected">#FBE47E</string>

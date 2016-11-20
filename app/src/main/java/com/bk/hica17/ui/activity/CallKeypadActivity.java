@@ -44,11 +44,11 @@ public class CallKeypadActivity extends AppCompatActivity {
         tabDiary.setIcon(R.drawable.ic_tab_diary);
         tabDiary.setText(getResources().getString(R.string.tab_diary));
         setColorFilter(tabDiary, getResources().getString(R.string.bg_tab_unselected));
-        tabContact.setIcon(R.drawable.ic_tab_contact);
+        tabContact.setIcon(R.drawable.ic_tab_contacts);
         tabContact.setText(getResources().getString(R.string.tab_contact));
         setColorFilter(tabContact, getResources().getString(R.string.bg_tab_unselected));
-        tabAdd.setIcon(R.drawable.ic_tab_final);
-        tabAdd.setText(getResources().getString(R.string.tab_add));
+        tabAdd.setIcon(R.drawable.ic_tab_menu);
+        tabAdd.setText(getResources().getString(R.string.tab_menu));
         setColorFilter(tabAdd, getResources().getString(R.string.bg_tab_unselected));
 
         tabLayout.addTab(tabKeyboard, 0);
