@@ -2,6 +2,7 @@ package com.bk.hica17.adapter;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +67,9 @@ public class RvContactVoiceAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         if (contacts != null && contacts.size() > 0) {
             mContacts.addAll(contacts);
-            this.notifyDataSetChanged();
+//            notifyItemRangeInserted(0, contacts.size());
+            notifyDataSetChanged();
+            Log.e("tuton", "size:" + mContacts.size());
         }
     }
 

@@ -2,8 +2,11 @@ package com.bk.hica17.utils;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.media.AudioManager;
 import android.speech.SpeechRecognizer;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
@@ -11,10 +14,10 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.bk.hica17.BaseApplication;
+import com.bk.hica17.receiver.HeadPhoneReceiver;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -44,7 +47,7 @@ public class Util {
                                 Manifest.permission.RECORD_AUDIO, Manifest.permission.MODIFY_AUDIO_SETTINGS,
                                 Manifest.permission.READ_CONTACTS, Manifest.permission.CALL_PHONE,
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE,
-                                Manifest.permission.PROCESS_OUTGOING_CALLS},
+                                Manifest.permission.PROCESS_OUTGOING_CALLS, Manifest.permission.VIBRATE},
                         10
                 );
             }
@@ -141,11 +144,9 @@ public class Util {
         return message;
     }
 
-    public static void hideSoftKeyboard(Activity activity) {
-
-        if (activity != null && activity.getCurrentFocus() != null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
-        }
+    public static void registerHeadPhone() {
+        AudioManager am = (AudioManager) BaseApplication.getContext().getSystemService(Context.AUDIO_SERVICE);
+        am.registerMediaButtonEventReceiver(new ComponentName(BaseApplication.getContext().getPackageName(),
+                HeadPhoneReceiver.class.getName()));
     }
 }

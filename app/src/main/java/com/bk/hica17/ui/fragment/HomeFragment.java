@@ -2,7 +2,6 @@ package com.bk.hica17.ui.fragment;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,9 +18,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bk.hica17.R;
+import com.bk.hica17.appconstant.AppConstant;
 import com.bk.hica17.dialog.CustomDiaglog;
 import com.bk.hica17.model.Contact;
 import com.bk.hica17.model.ContactMatching;
+import com.bk.hica17.ui.activity.HearPhoneActivity;
 import com.bk.hica17.ui.activity.VoiceActivity;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -142,11 +143,17 @@ public class HomeFragment extends Fragment {
 //                startActivity(surf);
 
 
-                Uri call = Uri.parse("tel:" + stringBuilder);
-                Intent surf = new Intent(Intent.ACTION_CALL, call);
-                startActivity(surf);
-
-
+//                Uri call = Uri.parse("tel:" + stringBuilder);
+//                Intent surf = new Intent(Intent.ACTION_CALL, call);
+//                startActivity(surf);
+                String phoneNumber = editPhoneNumber.getText().toString();
+                Contact contact = findContactByNumber(phoneNumber);
+                Intent callIntent = new Intent(getActivity(), HearPhoneActivity.class);
+                Bundle data = new Bundle();
+                data.putSerializable(AppConstant.CONTACT, contact);
+                data.putInt(AppConstant.FLAG, AppConstant.OUT_COMMING);
+                callIntent.putExtra(AppConstant.PACKAGE, data);
+                getActivity().startActivity(callIntent);
             }
         });
 
@@ -259,6 +266,12 @@ public class HomeFragment extends Fragment {
             txtName.setVisibility(View.INVISIBLE);
             txtPhone.setVisibility(View.INVISIBLE);
         }
+
+    }
+
+    public Contact findContactByNumber(String phoneNumber) {
+
+        return new Contact("Trung", phoneNumber);
 
     }
 

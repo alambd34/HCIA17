@@ -40,10 +40,6 @@ import butterknife.OnClick;
 
 public class VoiceActivity extends AppCompatActivity {
 
-    private static final int RECORDER_CHANNELS = 1;
-    private static final int RECORDER_ENCODING_BIT = 16;
-    private static final int RECORDER_SAMPLE_RATE = 44100;
-
     public static final int START_RECOGNIZING = 0;
     public static final int END_RECOGNIZING = 1;
     public static final int RESULT_RECOGNIZING = 2;
@@ -54,6 +50,9 @@ public class VoiceActivity extends AppCompatActivity {
     public static final int WRONG_SYNTAX = 1;
     public static final int NO_SPEECH = 2;
     public static final int RIGHT_SYNTAX = 3;
+
+    public static final int CREATE_NEW_ACTIVITY = 1;
+    public static final int BACK_FROM_ACTIVITY = 2;
 
     @Bind(R.id.rl_root_view_voice)
     RelativeLayout mRootView;
@@ -90,6 +89,7 @@ public class VoiceActivity extends AppCompatActivity {
 
     boolean mEnableTextToSpeech = true;
     int mRecognizing = END_RECOGNIZING;
+    int flag = CREATE_NEW_ACTIVITY;
 
 
     @Override
@@ -115,9 +115,9 @@ public class VoiceActivity extends AppCompatActivity {
         mGlSurfaceEffect.getHolder().setFormat(PixelFormat.TRANSLUCENT);
         this.mHorizon = new Horizon(
                 mGlSurfaceEffect, getResources().getColor(android.R.color.transparent),
-                RECORDER_SAMPLE_RATE,
-                RECORDER_CHANNELS,
-                RECORDER_ENCODING_BIT);
+                AppConstant.RECORDER_SAMPLE_RATE,
+                AppConstant.RECORDER_CHANNELS,
+                AppConstant.RECORDER_ENCODING_BIT);
         this.mHorizon.setMaxVolumeDb(120);
 
         Util.applyAnimation(mTxtWhatHelp, R.anim.translate_alpha);
@@ -157,10 +157,13 @@ public class VoiceActivity extends AppCompatActivity {
 
     public void speakOut(String text) {
         if (!text.isEmpty() && mEnableTextToSpeech) {
-            mTextToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+//            HashMap<String, String> myHashAlarm = new HashMap();
+//            myHashAlarm.put(TextToSpeech.Engine.KEY_PARAM_STREAM,
+//                    String.valueOf(AudioManager.STREAM_ALARM));
+            String utteranceId=this.hashCode() + "";
+            mTextToSpeech.speak( "" + text, TextToSpeech.QUEUE_ADD, null, utteranceId);
         }
     }
-
     public void initRecognizerIntent() {
 
         recognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -243,6 +246,7 @@ public class VoiceActivity extends AppCompatActivity {
                 startCallActivity(mContactAdapter.getContacts().get(position));
             }
         });
+
         mRvResults.setLayoutManager(layoutManager);
         mRvResults.setAdapter(mContactAdapter);
     }
@@ -270,15 +274,14 @@ public class VoiceActivity extends AppCompatActivity {
 
             Random rand = new Random();
             while (mRecognizing == START_RECOGNIZING && dataVoice != null) {
-                Log.e(AppConstant.LOG_TAG, "vao");
-                int temp = rand.nextInt(dataVoice.size());
+                int temp = rand.nextInt(dataVoice.size() -1) + 1;
                 publishProgress(temp);
                 sleepEffect(70);
             }
 
             for (int i = 0; i < 220; i++) {
                 publishProgress(0);
-                sleepEffect(4);
+                sleepEffect(6);
             }
             return null;
         }
@@ -332,6 +335,8 @@ public class VoiceActivity extends AppCompatActivity {
             mRecognizing = ERROR_RECOGNIZING;
         }
         mSpeechRecognizer.cancel();
+        mTxtQuestion.setText("");
+        mTxtAnswer.setText(AppConstant.NO_SPEECH);
     }
 
 
@@ -450,7 +455,6 @@ public class VoiceActivity extends AppCompatActivity {
             if (contacts != null && contacts.size() > 0) {
                 showAnswer = AppConstant.TITLE_RESULT;
                 mContactAdapter.addAll(contacts);
-                Log.e("tuton", mContactAdapter.getContacts().size() + "");
                 if (contacts.size() == 1) {
                     speak = false;
                     startCallActivity(contacts.get(0));
@@ -496,9 +500,15 @@ public class VoiceActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        if (mRecognizing != START_RECOGNIZING) {
+        if (mRecognizing != START_RECOGNIZING && flag == CREATE_NEW_ACTIVITY) {
             new TaskRecognizing().execute();
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        flag = BACK_FROM_ACTIVITY;
     }
 
     @Override
@@ -521,8 +531,12 @@ public class VoiceActivity extends AppCompatActivity {
 
     public void startCallActivity(Contact contact) {
 
-
-
+        Intent callIntent = new Intent(this, HearPhoneActivity.class);
+        Bundle data = new Bundle();
+        data.putSerializable(AppConstant.CONTACT, contact);
+        data.putInt(AppConstant.FLAG, AppConstant.OUT_COMMING);
+        callIntent.putExtra(AppConstant.PACKAGE, data);
+        startActivity(callIntent);
     }
 }
 

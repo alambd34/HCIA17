@@ -35,8 +35,8 @@
     <dimen name="width_voice_call">40dp</dimen>
     <dimen name="height_make_call">60dp</dimen>
     <dimen name="width_make_call">60dp</dimen>
-    <dimen name="height_delete_number">40dp</dimen>
-    <dimen name="width_delete_number">40dp</dimen>
+    <dimen name="height_delete_number">37dp</dimen>
+    <dimen name="width_delete_number">37dp</dimen>
     <dimen name="height_gl_surface_view_hear">200dp</dimen>
     <dimen name="width_gl_surface_view_hear">100dp</dimen>
 </resources>

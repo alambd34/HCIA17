@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -42,6 +43,12 @@
         <activity
             android:name=".ui.activity.WaitHearPhoneActivity"
             android:theme="@style/WaitCallTheme" />
+
+        <receiver android:name=".receiver.HeadPhoneReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
