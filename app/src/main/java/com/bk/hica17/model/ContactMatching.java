@@ -7,19 +7,23 @@ import android.provider.ContactsContract;
 
 import com.bk.hica17.BaseApplication;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by khanh on 14/11/2016.
  */
 public class ContactMatching {
 
-    private String strNumInput;
+    public static String strNumInput;
 
     public ContactMatching(String strNumInput) {
         this.strNumInput = strNumInput;
     }
 
 
-    public Contact getContactMatching() {
+    public List<Contact> getContactMatching() {
+        List<Contact> listContact = new ArrayList<Contact>();
         Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
         Context context = BaseApplication.getContext();
         Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
@@ -33,11 +37,11 @@ public class ContactMatching {
                 int colNameIndex = cursor.getColumnIndex(colName);
                 String name = cursor.getString(colNameIndex);
                 result = new Contact(name, phone);
-                break;
+                listContact.add(result);
             }
         }
         cursor.close();
-        return result;
+        return listContact;
     }
 
     public String getInputString() {

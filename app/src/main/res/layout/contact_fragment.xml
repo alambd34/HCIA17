@@ -7,7 +7,7 @@
         android:id="@+id/rlSearch"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@color/PrimaryColor"
+        android:background="@color/bg_tab"
         android:padding="10dp">
 
         <android.support.v7.widget.AppCompatEditText

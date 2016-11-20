@@ -1,10 +1,15 @@
 <resources>
     <string name="app_name">HICA17</string>
     <string name="listening">Đang nghe...</string>
-    <string name="tab_icon_selected">#ecd95a</string>
-    <string name="tab_icon_unselected">#ffffff</string>
-    <string name="add_to_contact">+ Thêm vào danh bạ</string>
+    <string name="add_to_contact">Thêm vào danh bạ</string>
     <string name="title_dialog">Kết quả tìm kiếm</string>
     <string name="btn_exit_dialog">Thoát</string>
     <string name="what_help">Tôi có thể giúp gì\n cho bạn ?</string>
+    <string name="tab_keyboard">Bàn phím</string>
+    <string name="tab_diary">Nhật ký</string>
+    <string name="tab_contact">Danh bạ</string>
+    <string name="tab_add">Thêm</string>
+    <string name="type_contact_mobile">Di động</string>
+    <string name="bg_tab_unselected">#B2E2D4</string>
+    <string name="bg_tab_selected">#FBE47E</string>
 </resources>

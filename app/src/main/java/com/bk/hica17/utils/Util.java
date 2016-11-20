@@ -4,14 +4,17 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.speech.SpeechRecognizer;
 import android.support.v4.app.ActivityCompat;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.bk.hica17.BaseApplication;
@@ -146,6 +149,20 @@ public class Util {
         if (activity != null && activity.getCurrentFocus() != null) {
             InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+        }
+    }
+
+    public static void setHideSoftInput(EditText editSearch, boolean status) {
+        if (Build.VERSION.SDK_INT >= 21) {
+            editSearch.setShowSoftInputOnFocus(!status);
+        }
+
+        if (Build.VERSION.SDK_INT >= 11) {
+            editSearch.setRawInputType(InputType.TYPE_CLASS_TEXT);
+            editSearch.setTextIsSelectable(status);
+        } else {
+            editSearch.setRawInputType(InputType.TYPE_NULL);
+            editSearch.setFocusable(status);
         }
     }
 }

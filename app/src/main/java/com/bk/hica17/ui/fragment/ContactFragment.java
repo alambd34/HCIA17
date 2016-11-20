@@ -31,7 +31,7 @@ import java.util.ArrayList;
 public class ContactFragment extends Fragment {
 
     View mRootView;
-    EditText mEdSearch;
+    public static EditText mEdSearch;
     RecyclerView mRVContact;
 
     LinearLayout llSearchContact;

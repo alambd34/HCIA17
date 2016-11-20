@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="@color/PrimaryColor"
+        android:background="@color/bg_tab"
         app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
         app:tabMode="fixed"
         app:tabGravity="fill"/>

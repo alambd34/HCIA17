@@ -6,120 +6,175 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="0px"
-        android:layout_height="0px"
         android:focusable="true"
-        android:focusableInTouchMode="true" />
+        android:focusableInTouchMode="true"
+        android:layout_width="0px"
+        android:layout_height="0px" />
 
     <RelativeLayout
         android:id="@+id/contact_info"
         android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_alignParentTop="true"
-        android:background="@color/PrimaryColor">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profile_image"
-            android:layout_width="@dimen/width_circle_view"
-            android:layout_height="@dimen/height_circle_view"
-            android:padding="@dimen/padding_circle_view"
-            android:src="@drawable/icon_profile" />
+        android:layout_height="65dp"
+        android:background="@color/bg_tab"
+        android:layout_alignParentTop="true">
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/profile_image">
-
-            <TextView
-                android:id="@+id/add_contact"
+            android:layout_toLeftOf="@+id/list_contact">
+            <ImageView
+                android:id="@+id/profile_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/ic_profile"
+                android:padding="@dimen/padding_circle_view"/>
+
+            <RelativeLayout
+                android:id="@+id/add_contact"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:gravity="center"
-                android:text="@string/add_to_contact"
-                android:textColor="#fff"
-                android:textSize="@dimen/add_to_contact_size" />
+                android:layout_toRightOf="@id/profile_image">
+                <TextView
+                    android:id="@+id/txt_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+"
+                    android:textSize="30dp"
+                    android:textColor="#fff"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"/>
+                <TextView
+                    android:id="@+id/txt_add_contact"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fff"
+                    android:text="@string/add_to_contact"
+                    android:textSize="@dimen/add_to_contact_size"
+                    android:gravity="center"
+                    android:layout_toRightOf="@id/txt_add"
+                    android:layout_marginLeft="15dp"
+                    android:layout_centerVertical="true"
+                    />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/name_and_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/profile_image"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="#fff"
+                    android:textSize="@dimen/text_size_contact"
+                    android:clickable="false"/>
+
+                <TextView
+                    android:id="@+id/phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="#fff"
+                    android:textSize="@dimen/text_size_contact"
+                    android:clickable="false"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_contact_info"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ripple_effect"
+                android:clickable="true"
+                android:orientation="horizontal">
+            </LinearLayout>
         </RelativeLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/menu"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/profile_image"
+            android:layout_marginTop="20dp"
+            android:layout_alignParentRight="true"
             android:orientation="vertical"
-            android:padding="@dimen/padding_linear_layout">
-
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="match_parent"
+            android:background="@drawable/ripple_effect"
+            android:clickable="true">
+            <ImageButton
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="#fff"
-                android:textSize="@dimen/text_size_contact" />
-
-            <TextView
-                android:id="@+id/phone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="#fff"
-                android:textSize="@dimen/text_size_contact" />
-
+                android:background="@drawable/ic_menu"
+                android:layout_gravity="center_horizontal"
+                android:clickable="false"/>
         </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/menu"
-            android:layout_width="@dimen/width_menu_button"
-            android:layout_height="@dimen/height_menu_button"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="1dp"
-            android:background="@drawable/menu" />
 
         <LinearLayout
             android:id="@+id/list_contact"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/menu"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="@dimen/padding_linear_layout">
-
+            android:layout_toLeftOf="@id/menu"
+            android:layout_marginTop="12dp"
+            android:clickable="true"
+            android:background="@drawable/ripple_effect">
             <TextView
+                android:id="@+id/number_result"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="20"
-                android:textColor="#fff" />
-
+                android:textColor="#fff"
+                android:clickable="false"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center"/>
             <ImageButton
-                android:layout_width="17dp"
-                android:layout_height="17dp"
-                android:background="@drawable/dropdown" />
+                android:id="@+id/btn_dropdown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/dropdown"
+                android:layout_gravity="center"
+                android:clickable="false"/>
         </LinearLayout>
+
+        <View
+            android:layout_width="0.1dp"
+            android:layout_height="20dp"
+            android:background="#fff"
+            android:layout_toRightOf="@id/list_contact"
+            android:layout_marginTop="20dp"/>
 
     </RelativeLayout>
 
 
     <RelativeLayout
+        android:id="@+id/layout_edit_phone_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/contact_info">
+        android:layout_below="@+id/contact_info"
+        android:layout_above="@+id/layout_keyboard"
+        android:background="@color/bg_phone_number">
 
         <EditText
-            android:id="@+id/txt_phone_number"
+            android:id="@+id/edit_phone_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:background="@android:color/transparent"
-            android:lines="1"
-            android:singleLine="true"
             android:textAlignment="center"
-            android:textSize="40sp" />
+            android:textSize="40sp"
+            android:singleLine="true"
+            android:lines="1"
+            android:background="@color/bg_phone_number" />
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/layout_keyboard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -129,138 +184,119 @@
             android:id="@+id/table_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:stretchColumns="*">
+            android:stretchColumns="*"
+            android:layout_alignParentBottom="true">
 
             <TableRow
                 android:layout_marginBottom="1dp"
                 android:layout_marginTop="1dp">
 
-                <ImageButton
-                    android:id="@+id/btn_1"
-                    style="?android:borderlessButtonStyle"
+                <RelativeLayout
                     android:layout_width="@dimen/image_button_width"
-                    android:layout_height="@dimen/image_button_height"
-                    android:background="@drawable/ripple_effect"
-                    android:clickable="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/img_1" />
+                    android:layout_height="@dimen/image_button_height">
+                    <ImageButton
+                        android:id="@+id/btn_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/img_1" />
+                    <!--<ImageButton-->
+                    <!--android:id="@+id/btn_1"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:background="#fff"/>-->
+                    <!--<LinearLayout-->
+                    <!--android:id="@+id/test"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:background="@drawable/ripple"-->
+                    <!--android:clickable="true"-->
+                    <!--android:orientation="horizontal">-->
+                    <!--</LinearLayout>-->
+                </RelativeLayout>
 
                 <ImageButton
                     android:id="@+id/btn_2"
-                    style="?android:borderlessButtonStyle"
                     android:layout_width="@dimen/image_button_width"
                     android:layout_height="@dimen/image_button_height"
                     android:layout_marginLeft="1dp"
                     android:layout_marginRight="1dp"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/img_2" />
+                    android:background="@drawable/img_2" />
 
                 <ImageButton
                     android:id="@+id/btn_3"
-                    style="?android:borderlessButtonStyle"
                     android:layout_width="@dimen/image_button_width"
                     android:layout_height="@dimen/image_button_height"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/img_3" />
+                    android:background="@drawable/img_3" />
             </TableRow>
 
             <TableRow android:layout_marginBottom="1dp">
 
                 <ImageButton
                     android:id="@+id/btn_4"
-                    style="?android:borderlessButtonStyle"
                     android:layout_width="@dimen/image_button_width"
                     android:layout_height="@dimen/image_button_height"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/img_4" />
+                    android:background="@drawable/img_4" />
 
                 <ImageButton
                     android:id="@+id/btn_5"
-                    style="?android:borderlessButtonStyle"
                     android:layout_width="@dimen/image_button_width"
                     android:layout_height="@dimen/image_button_height"
                     android:layout_marginLeft="1dp"
                     android:layout_marginRight="1dp"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/img_5" />
+                    android:background="@drawable/img_5" />
 
                 <ImageButton
                     android:id="@+id/btn_6"
-                    style="?android:borderlessButtonStyle"
                     android:layout_width="@dimen/image_button_width"
                     android:layout_height="@dimen/image_button_height"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/img_6" />
+                    android:background="@drawable/img_6" />
             </TableRow>
 
             <TableRow android:layout_marginBottom="1dp">
 
                 <ImageButton
                     android:id="@+id/btn_7"
-                    style="?android:borderlessButtonStyle"
                     android:layout_width="@dimen/image_button_width"
                     android:layout_height="@dimen/image_button_height"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/img_7" />
+                    android:background="@drawable/img_7" />
 
                 <ImageButton
                     android:id="@+id/btn_8"
-                    style="?android:borderlessButtonStyle"
                     android:layout_width="@dimen/image_button_width"
                     android:layout_height="@dimen/image_button_height"
                     android:layout_marginLeft="1dp"
                     android:layout_marginRight="1dp"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/img_8" />
+                    android:background="@drawable/img_8" />
 
                 <ImageButton
                     android:id="@+id/btn_9"
-                    style="?android:borderlessButtonStyle"
                     android:layout_width="@dimen/image_button_width"
                     android:layout_height="@dimen/image_button_height"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/img_9" />
+                    android:background="@drawable/img_9" />
             </TableRow>
 
             <TableRow android:layout_marginBottom="1dp">
 
                 <ImageButton
                     android:id="@+id/btn_star"
-                    style="?android:borderlessButtonStyle"
                     android:layout_width="@dimen/image_button_width"
                     android:layout_height="@dimen/image_button_height"
                     android:layout_marginLeft="1dp"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/img_star" />
+                    android:background="@drawable/img_star" />
 
                 <ImageButton
                     android:id="@+id/btn_0"
-                    style="?android:borderlessButtonStyle"
                     android:layout_width="@dimen/image_button_width"
                     android:layout_height="@dimen/image_button_height"
                     android:layout_marginLeft="1dp"
                     android:layout_marginRight="1dp"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/img_0" />
+                    android:background="@drawable/img_0" />
 
                 <ImageButton
                     android:id="@+id/btn_hash"
-                    style="?android:borderlessButtonStyle"
                     android:layout_width="@dimen/image_button_width"
                     android:layout_height="@dimen/image_button_height"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/img_hash" />
+                    android:background="@drawable/img_hash" />
             </TableRow>
         </TableLayout>
 

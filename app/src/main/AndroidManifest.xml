@@ -21,7 +21,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.activity.MainActivity"></activity>
-        <activity android:name=".ui.activity.CallKeypadActivity">
+        <activity android:name=".ui.activity.CallKeypadActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

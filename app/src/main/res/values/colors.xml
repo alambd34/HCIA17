@@ -281,16 +281,15 @@
 
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
-
-    <color name="PrimaryColor">#2196F3</color>
-    <color name="PrimaryDarkColor">#1976D2</color>
-    <color name="indicator">#ecd95a</color>
     <color name="background_surface">#ff354852</color>
 
     <color name="background_voice1">#CC455A64</color>
     <color name="background_voice2">#CC37474F</color>
     <color name="background_voice3">#CC263238</color>
 
-
+    <color name="bg_tab_unselected">#B2E2D4</color>
+    <color name="bg_phone_number">#EEEEEE</color>
+    <color name="bg_tab_selected">#FBE47E</color>
+    <color name="bg_tab">#15A88E</color>
 
 </resources>
